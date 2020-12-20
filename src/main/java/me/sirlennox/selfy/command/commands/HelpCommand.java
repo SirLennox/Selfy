@@ -19,13 +19,10 @@ public class HelpCommand extends Command {
     public void onCommand(String[] args, MessageCreateEvent e) {
         StringBuilder sb = new StringBuilder();
         if(args.length == 0) {
-            String title = MessageUtils.getTitle("Help");
-            sb.append(title);
             for (Command cmd : Main.selfy.commandManager.commands) {
                 sb.append("**" + cmd.cmd + "** ─ " + cmd.desc + "\n");
             }
-            sb.append(title);
-            MessageUtils.editMessage(null, sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
+            MessageUtils.editMessage("Help", sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
         }else {
             Command command = null;
             for(Command cmd : Main.selfy.commandManager.commands) {
@@ -35,13 +32,10 @@ public class HelpCommand extends Command {
             }
 
             if(command != null) {
-                String title = MessageUtils.getTitle("Help for " + command.cmd);
-                sb.append(title);
                 sb.append("Command » " + command.cmd + "\n");
                 sb.append("Alias/es » " +   ArrayUtils.bindString(command.aliases.toArray(new String[100]), 0, command.aliases.size(), ";") + "\n");
                 sb.append("Description » " + command.desc + "\n");
-                sb.append(title);
-                MessageUtils.editMessage(null, sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
+                MessageUtils.editMessage(MessageUtils.getTitle("Help for " + command.cmd), sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
             }else {
                 MessageUtils.editMessage(null, "Command not found!", Color.RED.getRGB(), e.getMessage());
             }

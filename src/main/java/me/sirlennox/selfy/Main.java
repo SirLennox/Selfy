@@ -1,19 +1,25 @@
 package me.sirlennox.selfy;
 
-import me.sirlennox.selfy.util.MessageUtils;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
 
     public static Selfy selfy;
 
+    public static final String NAME = "Selfy";
+    public static final String VERSION = "1.0";
+    public static final String PREFIX = ".";
+
     public static void main(String[] args) {
+        if(args.length != 1) {
+            System.err.println("Usage: <token>");
+            return;
+        }
         ArrayList<String> devs = new ArrayList<>();
         devs.add("SirLennox");
         devs.add("f1nniboy");
-        selfy = new Selfy("Selfy", "1.0", ".", "NzkwMjE0Mjk3NzA3NzQxMjA0.X99Wcg.vpCnwBVoNRS3YJisbYFTguRHv6I", devs, AccountType.PREMIUM);
+
+        selfy = new Selfy(NAME, VERSION, PREFIX, args[0], devs, AccountType.PREMIUM);
       /*  try {
             System.out.println(MessageUtils.getASCII(selfy.NAME));
         } catch (IOException e) { }*/

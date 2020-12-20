@@ -46,7 +46,8 @@ public class MessageUtils {
             for(String s : pieces) {
                 if(index == 0) {
                     msg.edit(new EmbedBuilder().setTitle(title).setColor(new Color(color)).setDescription(s)).join();
-                    msg.edit("").join();
+                  //  msg.edit("").join();
+                    msg.removeContent().join();
                 }else {
                     msg.getChannel().sendMessage(new EmbedBuilder().setColor(new Color(color)).setDescription(s)).join();
                 }
@@ -91,13 +92,7 @@ public class MessageUtils {
     }
 
     public static String getASCII(String ascii) throws IOException {
-        URLConnection con = new URL("https://artii.herokuapp.com/make?text=" + ascii.replaceAll(" ", "+")).openConnection();
-        Scanner scanner = new Scanner(con.getInputStream());
-        String back = "";
-        while (scanner.hasNextLine()) {
-            back += scanner.nextLine() + "\n";
-        }
-        return back;
+        return HttpUtils.get("https://artii.herokuapp.com/make?text=" + ascii);
     }
 
     public static String getTitle(String title) {

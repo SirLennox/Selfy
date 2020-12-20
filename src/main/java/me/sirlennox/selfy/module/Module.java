@@ -62,7 +62,7 @@ public class Module {
 
     public void toggle(TextChannel channel) {
         this.toggled = !this.toggled;
-        MessageUtils.sendMessage("Toggled", (toggled ? "§aEnabled " : "§cDisabled ") + "§8" + this.name, (toggled ? Color.GREEN.getRGB() : Color.RED.getRGB()),channel);
+        MessageUtils.sendMessage("Toggled", (toggled ? "Enabled " : "Disabled ")  + this.name, (toggled ? Color.GREEN.getRGB() : Color.RED.getRGB()),channel);
         if(this.toggled) {
             this.onEnable(channel);
         }else {
