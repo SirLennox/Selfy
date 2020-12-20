@@ -5,6 +5,7 @@ import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.util.MessageUtils;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public abstract class Command {
         this.onlyPremium = onlyPremium;
     }
 
-    public abstract void onCommand(String[] args, TextChannel channel, Message msg);
+    public abstract void onCommand(String[] args, MessageCreateEvent event);
 
     public void printUsage(String args, Message msg) {
         MessageUtils.editMessage("Usage", "Usage: " + Main.selfy.PREFIX + this.cmd + " " + args, Color.RED.getRGB(), msg);

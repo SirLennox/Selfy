@@ -3,10 +3,13 @@ package me.sirlennox.selfy;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.command.CommandManager;
 import me.sirlennox.selfy.module.ModuleManager;
+import me.sirlennox.selfy.util.MessageUtils;
+import me.sirlennox.selfy.util.Utils;
 import org.javacord.api.AccountType;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -19,8 +22,9 @@ public class Selfy {
     public final DiscordApi API;
     public final CommandManager commandManager;
     public final ModuleManager moduleManager;
+    public final me.sirlennox.selfy.AccountType accountType;
 
-    public Selfy(String name, String version, String prefix, String token, ArrayList<String> developers) {
+    public Selfy(String name, String version, String prefix, String token, ArrayList<String> developers, me.sirlennox.selfy.AccountType accountType) {
         this.NAME = name;
         this.VERSION = version;
         this.PREFIX = prefix;
@@ -29,6 +33,7 @@ public class Selfy {
         this.commandManager = new CommandManager();
         this.moduleManager = new ModuleManager();
         this.API = addEventListeners(buildBot(token));
+        this.accountType = accountType;
     }
 
     public DiscordApi buildBot(String token) {
@@ -52,7 +57,12 @@ public class Selfy {
                     String c = msgWithoutPrefix.split(" ")[0];
                     for(Command cmd : this.commandManager.commands) {
                         if(cmd.cmd.equalsIgnoreCase(c) || isAliasOfCommand(cmd, c)) {
-                            cmd.onCommand(args, event.getChannel(), event.getMessage());
+                            if(cmd.onlyPremium && !Utils.hasAccessToPremiumFeatures()) {
+                                MessageUtils.editMessage("Error", "This command is premium only and you don't have premium", Color.RED.getRGB(), event.getMessage());
+                                return;
+                            }
+                            cmd.onCommand(args, event);
+                            return;
                         }
                     }
                 }

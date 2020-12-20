@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class Module {
 
     public boolean autoStart = false;
-
+    public boolean onlyPremium = false;
     public String name;
     public String desc;
     public boolean toggled = false;
@@ -28,6 +28,16 @@ public class Module {
         this.toggled = false;
         this.lastMS = 0;
         this.category = category;
+    }
+
+
+    public Module(String name, String desc, Category category, boolean onlyPremium) {
+        this.name = name;
+        this.desc = desc;
+        this.toggled = false;
+        this.lastMS = 0;
+        this.category = category;
+        this.onlyPremium = onlyPremium;
     }
 
 

@@ -13,7 +13,7 @@ public class Main {
         ArrayList<String> devs = new ArrayList<>();
         devs.add("SirLennox");
         devs.add("f1nniboy");
-        selfy = new Selfy("Selfy", "1.0", ".", "NzkwMjE0Mjk3NzA3NzQxMjA0.X99Wcg.vpCnwBVoNRS3YJisbYFTguRHv6I", devs);
+        selfy = new Selfy("Selfy", "1.0", ".", "NzkwMjE0Mjk3NzA3NzQxMjA0.X99Wcg.vpCnwBVoNRS3YJisbYFTguRHv6I", devs, AccountType.PREMIUM);
       /*  try {
             System.out.println(MessageUtils.getASCII(selfy.NAME));
         } catch (IOException e) { }*/

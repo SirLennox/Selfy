@@ -6,6 +6,7 @@ import me.sirlennox.selfy.util.ArrayUtils;
 import me.sirlennox.selfy.util.MessageUtils;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;
 
@@ -15,7 +16,7 @@ public class HelpCommand extends Command {
     }
 
     @Override
-    public void onCommand(String[] args, TextChannel channel, Message msg) {
+    public void onCommand(String[] args, MessageCreateEvent e) {
         StringBuilder sb = new StringBuilder();
         if(args.length == 0) {
             String title = MessageUtils.getTitle("Help");
@@ -24,7 +25,7 @@ public class HelpCommand extends Command {
                 sb.append("**" + cmd.cmd + "** ─ " + cmd.desc + "\n");
             }
             sb.append(title);
-            MessageUtils.editMessage(null, sb.toString(), Color.DARK_GRAY.getRGB(), msg);
+            MessageUtils.editMessage(null, sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
         }else {
             Command command = null;
             for(Command cmd : Main.selfy.commandManager.commands) {
@@ -40,9 +41,9 @@ public class HelpCommand extends Command {
                 sb.append("Alias/es » " +   ArrayUtils.bindString(command.aliases.toArray(new String[100]), 0, command.aliases.size(), ";") + "\n");
                 sb.append("Description » " + command.desc + "\n");
                 sb.append(title);
-                MessageUtils.editMessage(null, sb.toString(), Color.DARK_GRAY.getRGB(), msg);
+                MessageUtils.editMessage(null, sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
             }else {
-                MessageUtils.editMessage(null, "Command not found!", Color.RED.getRGB(), msg);
+                MessageUtils.editMessage(null, "Command not found!", Color.RED.getRGB(), e.getMessage());
             }
         }
     }

@@ -20,7 +20,7 @@ public class MessageUtils {
             for(String s : pieces) {
                 if(index == 0) {
                     channel.sendMessage(new EmbedBuilder().setTitle(title).setColor(new Color(color)).setDescription(s)).join();
-                }else {
+                } else {
                     channel.sendMessage(new EmbedBuilder().setColor(new Color(color)).setDescription(s)).join();
                 }
                 index++;
