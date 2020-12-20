@@ -19,7 +19,6 @@ public class CommandManager {
         registerCommand(new ToggleCommand());
         registerCommand(new ModulesCommand());
         registerCommand(new AdCommand());
-        registerCommand(new ResolveIPCommand());
     }
 
 

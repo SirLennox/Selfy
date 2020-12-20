@@ -92,7 +92,13 @@ public class MessageUtils {
     }
 
     public static String getASCII(String ascii) throws IOException {
-        return HttpUtils.get("https://artii.herokuapp.com/make?text=" + ascii);
+        URLConnection con = new URL("https://artii.herokuapp.com/make?text=" + ascii.replaceAll(" ", "+")).openConnection();
+        Scanner scanner = new Scanner(con.getInputStream());
+        String back = "";
+        while (scanner.hasNextLine()) {
+            back += scanner.nextLine() + "\n";
+        }
+        return back;
     }
 
     public static String getTitle(String title) {

@@ -17,7 +17,7 @@ public class EmbedCommand extends Command {
 
     @Override
     public void onCommand(String[] args, MessageCreateEvent event) {
-        if (args.length < 2) {
+        if (args.length != 2) {
             printUsage("<Color> <Message>", event.getMessage());
             return;
         }

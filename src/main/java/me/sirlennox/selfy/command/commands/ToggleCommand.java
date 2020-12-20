@@ -19,7 +19,6 @@ public class ToggleCommand extends Command {
     public void onCommand(String[] args, MessageCreateEvent event) {
         if(args.length != 1) {
             printUsage("<Module>", event.getMessage());
-            return;
         }
         Module m = ModuleUtils.getModuleByName(args[0]);
         if(m == null) {

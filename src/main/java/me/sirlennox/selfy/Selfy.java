@@ -11,6 +11,7 @@ import org.javacord.api.DiscordApiBuilder;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Selfy {
     public final String VERSION;
@@ -50,7 +51,9 @@ public class Selfy {
                 if(msg.startsWith(PREFIX)) {
                     String msgWithoutPrefix = msg.substring(PREFIX.length());
                     String[] args = new String[msgWithoutPrefix.split(" ").length - 1];
-                    if (msgWithoutPrefix.split(" ").length - 1 >= 0) System.arraycopy(msgWithoutPrefix.split(" "), 1, args, 0, msgWithoutPrefix.split(" ").length - 1);
+                    for(int i = 1; i < msgWithoutPrefix.split(" ").length; i++) {
+                        args[i - 1] = msgWithoutPrefix.split(" ")[i];
+                    }
                     String c = msgWithoutPrefix.split(" ")[0];
                     for(Command cmd : this.commandManager.commands) {
                         if(cmd.cmd.equalsIgnoreCase(c) || isAliasOfCommand(cmd, c)) {
