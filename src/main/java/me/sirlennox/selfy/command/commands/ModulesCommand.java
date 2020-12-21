@@ -17,11 +17,11 @@ public class ModulesCommand extends Command {
     public void onCommand(String[] args, MessageCreateEvent event) {
         StringBuilder sb = new StringBuilder();
         for(Category c : Category.values()) {
-            sb.append("**" + c.name() + "**");
+            sb.append("**" + c.name() + "**\n");
 
             Main.selfy.moduleManager.modules.forEach(m -> {
                 if(m.category == c) {
-                    sb.append("-> " + m.name + " ─ " + m.desc);
+                    sb.append("-> " + m.name + " ─ " + m.desc + "\n");
                 }
             });
         }
