@@ -1,5 +1,7 @@
 package me.sirlennox.selfy.module;
 
+import me.sirlennox.selfy.module.modules.Bot4Everyone;
+
 import java.util.ArrayList;
 
 public class ModuleManager {
@@ -12,7 +14,7 @@ public class ModuleManager {
     public ArrayList<Module> modules = new ArrayList<>();
 
     public void init() {
-
+        registerModule(new Bot4Everyone());
     }
 
     public void startAutostart() {

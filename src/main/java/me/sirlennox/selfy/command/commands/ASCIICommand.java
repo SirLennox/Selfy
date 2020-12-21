@@ -1,5 +1,7 @@
 package me.sirlennox.selfy.command.commands;
 
+import com.google.common.base.Splitter;
+import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.util.ArrayUtils;
 import me.sirlennox.selfy.util.MessageUtils;
@@ -12,7 +14,7 @@ import java.io.IOException;
 
 public class ASCIICommand extends Command {
     public ASCIICommand() {
-        super("ascii", "Send an ASCII message");
+        super("ascii", "Send an ASCII message", Category.FUN);
     }
 
     @Override
@@ -22,7 +24,8 @@ public class ASCIICommand extends Command {
             return;
         }
         try {
-            MessageUtils.editMessage("```" + MessageUtils.getASCII(ArrayUtils.bindString(args, 0, args.length, " ")) + "```", event.getMessage());
+            String text = MessageUtils.getASCII(ArrayUtils.bindString(args, 0, args.length, " "));
+            MessageUtils.editMessage("```" + text + "```", event.getMessage());
         } catch (IOException e) {
 
         }

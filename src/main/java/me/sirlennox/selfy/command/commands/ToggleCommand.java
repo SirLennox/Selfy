@@ -1,5 +1,6 @@
 package me.sirlennox.selfy.command.commands;
 
+import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.module.Module;
 import me.sirlennox.selfy.util.MessageUtils;
@@ -11,7 +12,7 @@ import java.awt.*;
 
 public class ToggleCommand extends Command {
     public ToggleCommand() {
-        super("toggle", "Toggle a module");
+        super("toggle", "Toggle a module", Category.UTIL);
         this.aliases.add("t");
     }
 
@@ -30,6 +31,6 @@ public class ToggleCommand extends Command {
             MessageUtils.editMessage("Error", "This module is premium only and you don't have premium!", Color.RED.getRGB(), event.getMessage());
             return;
         }
-        m.toggle(event.getChannel());
+        m.toggle(event);
     }
 }

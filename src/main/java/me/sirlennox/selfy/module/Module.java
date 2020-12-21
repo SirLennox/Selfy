@@ -1,13 +1,12 @@
 package me.sirlennox.selfy.module;
 
-import me.sirlennox.selfy.Main;
+import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.util.MessageUtils;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Module {
 
@@ -42,7 +41,7 @@ public class Module {
 
 
 
-    public void onEnable(TextChannel channel) {
+    public void onEnable(MessageCreateEvent e) {
 
     }
 
@@ -55,18 +54,20 @@ public class Module {
 
     }
 
-    public void onDisable(TextChannel channel) {
+    public void onDisable(MessageCreateEvent e) {
 
     }
 
 
-    public void toggle(TextChannel channel) {
+    public void toggle(MessageCreateEvent e) {
         this.toggled = !this.toggled;
-        MessageUtils.sendMessage("Toggled", (toggled ? "Enabled " : "Disabled ")  + this.name, (toggled ? Color.GREEN.getRGB() : Color.RED.getRGB()),channel);
+        if(e != null) {
+            MessageUtils.editMessage("Toggled Module", (toggled ? "Enabled" : "Disabled") + " **" + this.name + "**", (toggled ? Color.GREEN.getRGB() : Color.RED.getRGB()), e.getMessage());
+        }
         if(this.toggled) {
-            this.onEnable(channel);
+            this.onEnable(e);
         }else {
-            this.onDisable(channel);
+            this.onDisable(e);
         }
     }
 

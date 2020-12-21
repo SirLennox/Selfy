@@ -20,6 +20,10 @@ public class CommandManager {
         registerCommand(new ModulesCommand());
         registerCommand(new AdCommand());
         registerCommand(new ResolveIPCommand());
+        registerCommand(new UptimeCommand());
+        registerCommand(new MemeCommand());
+        registerCommand(new AvatarCommand());
+        registerCommand(new HastebinCommand());
     }
 
 

@@ -1,6 +1,7 @@
 package me.sirlennox.selfy.command;
 
 
+import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.util.MessageUtils;
 import org.javacord.api.entity.channel.TextChannel;
@@ -15,17 +16,20 @@ public abstract class Command {
     public String cmd;
     public String desc;
     public ArrayList<String> aliases = new ArrayList<String>();
+    public Category category;
     public boolean onlyPremium = false;
 
-    public Command(String cmd, String desc) {
+    public Command(String cmd, String desc, Category category) {
         this.cmd = cmd;
         this.desc = desc;
+        this.category = category;
     }
 
-    public Command(String cmd, String desc, boolean onlyPremium) {
+    public Command(String cmd, String desc, Category category, boolean onlyPremium) {
         this.cmd = cmd;
         this.desc = desc;
         this.onlyPremium = onlyPremium;
+        this.category = category;
     }
 
     public abstract void onCommand(String[] args, MessageCreateEvent event);
@@ -33,5 +37,11 @@ public abstract class Command {
     public void printUsage(String args, Message msg) {
         MessageUtils.editMessage("Usage", "Usage: " + Main.selfy.PREFIX + this.cmd + " " + args, Color.RED.getRGB(), msg);
     }
+
+
+    public void printUsage(String args, MessageCreateEvent e) {
+        MessageUtils.editMessage("Usage", "Usage: " + Main.selfy.PREFIX + this.cmd + " " + args, Color.RED.getRGB(), e.getMessage());
+    }
+
 
 }

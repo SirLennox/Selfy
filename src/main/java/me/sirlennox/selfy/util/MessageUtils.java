@@ -13,13 +13,14 @@ import java.util.Scanner;
 
 public class MessageUtils {
 
-    public static void sendMessage(String title, String desc, int color, TextChannel channel) {
+    public static void sendMessage(String title, String image, String desc, int color, TextChannel channel) {
+        if(!channel.canYouWrite()) return;
         Iterable<String> pieces = Splitter.fixedLength(1024).split(desc);
         int index = 0;
         if(channel.canYouEmbedLinks()) {
             for(String s : pieces) {
                 if(index == 0) {
-                    channel.sendMessage(new EmbedBuilder().setTitle(title).setColor(new Color(color)).setDescription(s)).join();
+                    channel.sendMessage(new EmbedBuilder().setTitle(title).setImage(image).setColor(new Color(color)).setDescription(s)).join();
                 } else {
                     channel.sendMessage(new EmbedBuilder().setColor(new Color(color)).setDescription(s)).join();
                 }
@@ -39,14 +40,28 @@ public class MessageUtils {
 
     }
 
+    public static void sendMessage(String title, String desc, int color, TextChannel channel) {
+        sendMessage(title, null, desc, color, channel);
+    }
+
     public static void editMessage(String title, String desc, int color, Message msg) {
+        editMessage(title, null, desc, color, msg);
+    }
+
+
+    public static void editMessage(String title, String image, String desc, int color, Message msg) {
+        if(!msg.getChannel().canYouWrite()) return;
+        if(msg.getAuthor().getId() != msg.getApi().getYourself().getId()) {
+            sendMessage(title, image, desc, color, msg.getChannel());
+            return;
+        }
         if(msg.getChannel().canYouEmbedLinks()) {
             Iterable<String> pieces = Splitter.fixedLength(1024).split(desc);
             int index = 0;
             for(String s : pieces) {
                 if(index == 0) {
-                    msg.edit(new EmbedBuilder().setTitle(title).setColor(new Color(color)).setDescription(s)).join();
-                  //  msg.edit("").join();
+                    msg.edit(new EmbedBuilder().setTitle(title).setImage(image).setColor(new Color(color)).setDescription(s)).join();
+                    //  msg.edit("").join();
                     msg.removeContent().join();
                 }else {
                     msg.getChannel().sendMessage(new EmbedBuilder().setColor(new Color(color)).setDescription(s)).join();
@@ -69,7 +84,14 @@ public class MessageUtils {
         }
     }
 
+
+
     public static void editMessage(String content, Message msg) {
+        if(!msg.getChannel().canYouWrite()) return;
+        if(msg.getAuthor().getId() != msg.getApi().getYourself().getId()) {
+            sendMessage(content, msg.getChannel());
+            return;
+        }
         Iterable<String> pieces = Splitter.fixedLength(2000).split(content);
         int index = 0;
         for(String s : pieces) {
@@ -84,6 +106,7 @@ public class MessageUtils {
     }
 
     public static void sendMessage(String content, TextChannel channel) {
+        if(!channel.canYouWrite()) return;
         Iterable<String> pieces = Splitter.fixedLength(2000).split(content);
         for(String s : pieces) {
             channel.sendMessage(s).join();

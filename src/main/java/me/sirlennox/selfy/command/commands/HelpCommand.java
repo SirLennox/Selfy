@@ -1,5 +1,6 @@
 package me.sirlennox.selfy.command.commands;
 
+import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.util.ArrayUtils;
@@ -12,16 +13,22 @@ import java.awt.*;
 
 public class HelpCommand extends Command {
     public HelpCommand() {
-        super("help", "Help page");
+        super("help", "Help page", Category.UTIL);
     }
 
     @Override
     public void onCommand(String[] args, MessageCreateEvent e) {
         StringBuilder sb = new StringBuilder();
         if(args.length == 0) {
-            for (Command cmd : Main.selfy.commandManager.commands) {
-                sb.append("**" + cmd.cmd + "** ─ " + cmd.desc + "\n");
+            for(Category c : Category.values()) {
+                sb.append("\n**" + c.name + "**\n");
+                for (Command cmd : Main.selfy.commandManager.commands) {
+                    if(cmd.category == c) {
+                        sb.append(cmd.cmd + " » " + cmd.desc + "\n");
+                    }
+                }
             }
+
             MessageUtils.editMessage("Help", sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
         }else {
             Command command = null;
@@ -32,10 +39,11 @@ public class HelpCommand extends Command {
             }
 
             if(command != null) {
-                sb.append("Command » " + command.cmd + "\n");
-                sb.append("Alias/es » " +   ArrayUtils.bindString(command.aliases.toArray(new String[100]), 0, command.aliases.size(), ";") + "\n");
-                sb.append("Description » " + command.desc + "\n");
-                MessageUtils.editMessage(MessageUtils.getTitle("Help for " + command.cmd), sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
+                sb.append("Command » **" + command.cmd + "**\n");
+                sb.append("Alias/es » **" +   ArrayUtils.bindString(command.aliases.toArray(new String[100]), 0, command.aliases.size(), ";") + "**\n");
+                sb.append("Description » **" + command.desc + "**\n");
+                sb.append("Category » **" + command.category.name + "**\n");
+                MessageUtils.editMessage("Help for " + command.cmd, sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
             }else {
                 MessageUtils.editMessage(null, "Command not found!", Color.RED.getRGB(), e.getMessage());
             }

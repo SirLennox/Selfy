@@ -1,5 +1,6 @@
 package me.sirlennox.selfy.command.commands;
 
+import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.util.MessageUtils;
@@ -9,7 +10,7 @@ import java.awt.*;
 
 public class AdCommand extends Command {
     public AdCommand() {
-        super("ad", "Send an ad for this selfbot");
+        super("ad", "Send an ad for this selfbot", Category.OTHER);
         this.aliases.add(Main.NAME);
     }
 

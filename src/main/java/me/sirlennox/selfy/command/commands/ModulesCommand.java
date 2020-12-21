@@ -2,7 +2,7 @@ package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.command.Command;
-import me.sirlennox.selfy.module.Category;
+import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.util.MessageUtils;
 import org.javacord.api.event.message.MessageCreateEvent;
 
@@ -10,18 +10,18 @@ import java.awt.*;
 
 public class ModulesCommand extends Command {
     public ModulesCommand() {
-        super("modules", "List all modules");
+        super("modules", "List all modules", Category.UTIL);
     }
 
     @Override
     public void onCommand(String[] args, MessageCreateEvent event) {
         StringBuilder sb = new StringBuilder();
         for(Category c : Category.values()) {
-            sb.append("**" + c.name() + "**\n");
+            sb.append("\n**" + c.name + "**\n");
 
             Main.selfy.moduleManager.modules.forEach(m -> {
                 if(m.category == c) {
-                    sb.append("-> " + m.name + " ─ " + m.desc + "\n");
+                    sb.append("» " + m.name + " » " + m.desc + "\n");
                 }
             });
         }
