@@ -24,6 +24,7 @@ public class CommandManager {
         registerCommand(new MemeCommand());
         registerCommand(new AvatarCommand());
         registerCommand(new HastebinCommand());
+        registerCommand(new MediaCommand());
     }
 
 

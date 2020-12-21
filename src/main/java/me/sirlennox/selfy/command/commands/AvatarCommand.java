@@ -21,6 +21,6 @@ public class AvatarCommand extends Command {
                 .orElse(
                         event.getApi().getYourself()
                 );
-        MessageUtils.sendMessage("Avatar of " + user.getDiscriminatedName(), user.getAvatar().getUrl().toString(), "Here is " + user.getDiscriminatedName() + " avatar:", MathUtils.randomColor().getRGB(), event.getChannel());
+        MessageUtils.editMessage("Avatar of " + user.getDiscriminatedName(), user.getAvatar().getUrl().toString(), /*"Here is " + user.getDiscriminatedName() + " avatar:"*/null, MathUtils.randomColor().getRGB(), event.getMessage());
     }
 }

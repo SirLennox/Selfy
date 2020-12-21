@@ -15,6 +15,10 @@ public class MessageUtils {
 
     public static void sendMessage(String title, String image, String desc, int color, TextChannel channel) {
         if(!channel.canYouWrite()) return;
+        if(desc == null) {
+            channel.sendMessage(new EmbedBuilder().setTitle(title).setImage(image).setColor(new Color(color))).join();
+            return;
+        }
         Iterable<String> pieces = Splitter.fixedLength(1024).split(desc);
         int index = 0;
         if(channel.canYouEmbedLinks()) {
@@ -53,6 +57,10 @@ public class MessageUtils {
         if(!msg.getChannel().canYouWrite()) return;
         if(msg.getAuthor().getId() != msg.getApi().getYourself().getId()) {
             sendMessage(title, image, desc, color, msg.getChannel());
+            return;
+        }
+        if(desc == null) {
+            msg.edit(new EmbedBuilder().setTitle(title).setImage(image).setColor(new Color(color))).join();
             return;
         }
         if(msg.getChannel().canYouEmbedLinks()) {
