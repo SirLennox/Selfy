@@ -19,7 +19,7 @@ public class ToggleCommand extends Command {
     @Override
     public void onCommand(String[] args, MessageCreateEvent event) {
         if(args.length != 1) {
-            printUsage("<Module>", event.getMessage());
+            sendUsage("<Module>", event.getMessage());
             return;
         }
         Module m = ModuleUtils.getModuleByName(args[0]);

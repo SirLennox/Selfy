@@ -14,7 +14,7 @@ public class MediaCommand extends Command {
     @Override
     public void onCommand(String[] args, MessageCreateEvent event) {
         if(args.length < 1) {
-            printUsage("<Link>", event);
+            sendUsage("<Link>", event);
             return;
         }
         MessageUtils.editMessage(null, args[0], null, MathUtils.randomColor().getRGB(), event.getMessage());

@@ -25,6 +25,12 @@ public class CommandManager {
         registerCommand(new AvatarCommand());
         registerCommand(new HastebinCommand());
         registerCommand(new MediaCommand());
+        registerCommand(new FakeUserCommand());
+        registerCommand(new ActivityCommand());
+        registerCommand(new RemoveActivityCommand());
+        registerCommand(new JokeCommand());
+        registerCommand(new ViewCommand());
+        registerCommand(new AnimalCommand());
     }
 
 

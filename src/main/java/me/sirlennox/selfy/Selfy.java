@@ -56,6 +56,13 @@ public class Selfy {
                 onMessage(event);
             }
         });
+        new Thread(() -> {
+            while (true) {
+                moduleManager.modules.forEach(m -> {
+                    if(m.toggled) m.onUpdate();
+                });
+            }
+        }, "ModuleUpdateThread").start();
         return api;
     }
 

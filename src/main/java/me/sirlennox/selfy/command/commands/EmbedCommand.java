@@ -4,12 +4,9 @@ import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.util.ArrayUtils;
 import me.sirlennox.selfy.util.MessageUtils;
-import org.javacord.api.entity.channel.TextChannel;
-import org.javacord.api.entity.message.Message;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;
-import java.math.BigInteger;
 
 public class EmbedCommand extends Command {
     public EmbedCommand() {
@@ -19,7 +16,7 @@ public class EmbedCommand extends Command {
     @Override
     public void onCommand(String[] args, MessageCreateEvent event) {
         if (args.length < 2) {
-            printUsage("<Color> <Message>", event.getMessage());
+            sendUsage("<Color> <Message>", event.getMessage());
             return;
         }
         try {

@@ -1,27 +1,13 @@
 package me.sirlennox.selfy.util;
 
+import java.util.Arrays;
+
 public class ArrayUtils {
 
     public static String bindString(String[] s, int f, int t) {
-        String out = "";
-        for(int i = f; i < t; i++) {
-            if(out.equalsIgnoreCase("")) {
-                out = s[i];
-            }else {
-                out += " " + s[i];
-            }
-        }
-        return out;
+        return bindString(s, f, t, " ");
     }
     public static String bindString(String[] s, int f, int t, String split) {
-        String out = "";
-        for(int i = f; i < t; i++) {
-            if(out.equalsIgnoreCase("")) {
-                out = s[i];
-            }else {
-                out += split + s[i];
-            }
-        }
-        return out;
+        return String.join(split, Arrays.copyOfRange(s,f, t));
     }
 }

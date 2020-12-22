@@ -18,7 +18,7 @@ public class HastebinCommand extends Command {
     @Override
     public void onCommand(String[] args, MessageCreateEvent event) {
         if(args.length < 1) {
-            printUsage("<Text>", event.getMessage());
+            sendUsage("<Text>", event.getMessage());
             return;
         }
         String text = ArrayUtils.bindString(args, 0, args.length).replaceAll("\\n", "\n");

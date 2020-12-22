@@ -61,6 +61,7 @@ public class MessageUtils {
         }
         if(desc == null) {
             msg.edit(new EmbedBuilder().setTitle(title).setImage(image).setColor(new Color(color))).join();
+            msg.removeContent().join();
             return;
         }
         if(msg.getChannel().canYouEmbedLinks()) {
@@ -90,6 +91,15 @@ public class MessageUtils {
             }
             index++;
         }
+    }
+
+    public static void editMessage(Message msg, String title, String image, String desc, int color) {
+        editMessage(title, image, desc, color, msg);
+    }
+
+
+    public static void editMessage(Message msg, String title, String desc, int color) {
+        editMessage(title, null, desc, color, msg);
     }
 
 

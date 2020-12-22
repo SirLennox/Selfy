@@ -34,12 +34,12 @@ public abstract class Command {
 
     public abstract void onCommand(String[] args, MessageCreateEvent event);
 
-    public void printUsage(String args, Message msg) {
+    public void sendUsage(String args, Message msg) {
         MessageUtils.editMessage("Usage", "Usage: " + Main.selfy.PREFIX + this.cmd + " " + args, Color.RED.getRGB(), msg);
     }
 
 
-    public void printUsage(String args, MessageCreateEvent e) {
+    public void sendUsage(String args, MessageCreateEvent e) {
         MessageUtils.editMessage("Usage", "Usage: " + Main.selfy.PREFIX + this.cmd + " " + args, Color.RED.getRGB(), e.getMessage());
     }
 
