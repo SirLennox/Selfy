@@ -39,13 +39,7 @@ public class HelpCommand extends Command {
 
             MessageUtils.editMessage("Help", sb.toString(), Color.DARK_GRAY.getRGB(), e.getMessage());
         }else {
-            Command command = null;
-            for(Command cmd : Main.selfy.commandManager.commands) {
-                if(cmd.aliases.contains(args[0]) || cmd.cmd.equalsIgnoreCase(args[0])) {
-                    command = cmd;
-                }
-            }
-
+            Command command = Main.selfy.commandUtils.getCommandByName(args[0]);
             if(command != null) {
                 sb.append("Command » `" + command.cmd + "`\n");
                 sb.append("Alias/es » `" +  getAliases(command) + "`\n");

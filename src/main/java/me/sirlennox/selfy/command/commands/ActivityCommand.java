@@ -14,9 +14,11 @@
 package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
+import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.util.MathUtils;
 import me.sirlennox.selfy.util.MessageUtils;
+import me.sirlennox.selfy.util.ModuleUtils;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.event.message.MessageCreateEvent;
 
@@ -39,6 +41,7 @@ public class ActivityCommand extends Command {
             sendUsage("<Type> <Message>", event.getMessage());
             return;
         }
+
 
         String activity = args[0];
 

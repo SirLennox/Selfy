@@ -1,18 +1,21 @@
 package me.sirlennox.selfy;
 
-import com.sun.xml.internal.ws.api.message.Message;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.command.CommandManager;
 import me.sirlennox.selfy.module.ModuleManager;
-import me.sirlennox.selfy.util.MessageUtils;
-import me.sirlennox.selfy.util.Utils;
+import me.sirlennox.selfy.util.*;
 import org.javacord.api.AccountType;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Selfy {
     public final String VERSION;
@@ -26,17 +29,73 @@ public class Selfy {
     public final me.sirlennox.selfy.AccountType accountType;
     public final long startedMS;
 
+    //Utils
+    public CommandUtils commandUtils;
+    public ModuleUtils moduleUtils;
+    public ModulesConfigUtils modulesConfigUtils;
+
+    public File dir;
+    public File modulesConfigFile;
+
+
+
     public Selfy(String name, String version, String prefix, String token, ArrayList<String> developers, me.sirlennox.selfy.AccountType accountType) {
+        this.dir = this.createDir(new File(System.getProperty("user.home"), name));
         this.NAME = name;
         this.VERSION = version;
         this.PREFIX = prefix;
         this.TOKEN = token;
         this.DEVELOPERS = developers;
         this.commandManager = new CommandManager();
+        this.commandUtils = new CommandUtils(this);
         this.moduleManager = new ModuleManager();
+        this.moduleUtils = new ModuleUtils(this);
+        this.modulesConfigUtils = new ModulesConfigUtils(this);
+        try {
+            this.modulesConfigFile = new File(this.dir, "moduleConfigs.json");
+            createModuleConfigFileAndSetModuleConfigs(this.modulesConfigFile);
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                JSONObject writeJSON = this.modulesConfigUtils.modulesToJSONObject();
+                try {
+                    FileWriter fw = new FileWriter(this.modulesConfigFile);
+                    fw.write(writeJSON.toJSONString());
+                    fw.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }));
+        } catch (IOException e) {
+        }
+
         this.API = addEventListeners(buildBot(token));
         this.accountType = accountType;
         this.startedMS = System.currentTimeMillis();
+    }
+
+    public File createDir(File dir) {
+        if(!dir.exists()) dir.mkdir();
+        return dir;
+    }
+
+    public JSONObject createModuleConfigFileAndSetModuleConfigs(File f) throws IOException {
+        if(f.exists()) {
+            return setModuleConfigs(f);
+        }else {
+            f.createNewFile();
+        }
+        return null;
+    }
+
+    public JSONObject setModuleConfigs(File f) throws FileNotFoundException {
+        JSONObject obj;
+        this.modulesConfigUtils.setModuleConfigs(obj = (JSONObject) JSONValue.parse(new FileReader(f)));
+        return obj;
+    }
+
+
+    public File createJSONFile(File f) throws IOException {
+        if(!f.exists()) f.createNewFile();
+        return f;
     }
 
     public DiscordApi buildBot(String token) {
@@ -107,11 +166,6 @@ public class Selfy {
 
 
     public String getDevelopers() {
-       /* StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < DEVELOPERS.size(); i++) {
-            sb.append((i == 0 ? DEVELOPERS.get(i) : ", " + DEVELOPERS.get(i)));
-        }
-        return sb.toString();*/
         return String.join(", ", DEVELOPERS);
     }
 

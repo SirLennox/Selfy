@@ -15,12 +15,16 @@ import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.util.MathUtils;
 import me.sirlennox.selfy.util.MessageUtils;
-import org.javacord.api.entity.message.MessageSet;
+import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageType;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;
-import java.util.concurrent.CompletableFuture;
+
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ClearCommand extends Command {
     public ClearCommand() {
@@ -35,23 +39,32 @@ public class ClearCommand extends Command {
         }
 
         try {
-            CompletableFuture<MessageSet> messages = event.getChannel().getMessages(Integer.parseInt(args[0]));
+            int amountToDelete = Integer.parseInt(args[0]) + 1;
             AtomicInteger amount = new AtomicInteger();
 
-            messages.join().forEach(message -> {
-                if(message.getAuthor().getIdAsString()
-                        .equals(event.getApi().getYourself().getIdAsString())
-                ) {
-                    try {
-                        message.delete();
-                        amount.getAndIncrement();
-                    } catch (Exception ignored) { }
-                }
+            Stream<Message> messageStream = event.getChannel().getMessagesAsStream().filter(message -> {
+                boolean isOwnMessageAndNormal = message.getAuthor().getIdAsString().equals(event.getApi().getYourself().getIdAsString()) && message.getType() == MessageType.NORMAL;
+                if(isOwnMessageAndNormal) { amount.getAndIncrement(); }
+
+                return amount.get() <= amountToDelete && isOwnMessageAndNormal;
             });
 
-            MessageUtils.editMessage(event.getMessage(), "Clear", "Clearing " + messages.join().size() + " messages ...", MathUtils.randomColor().getRGB());
+            List<Message> messages = messageStream.collect(Collectors.toList());
+            new Thread(() -> {
+                messages.forEach(message -> {
+                    try {
+                        message.delete().join();
+                    } catch (Exception ignored) { }
+                });
+                try {
+                    MessageUtils.sendMessage("Clear", "Cleared " + (messages.size()) + " messages.", MathUtils.randomColor().getRGB(), event.getChannel());
+                }catch (Exception e) { }
+                }, "MessageDeleteThread").start();
+
+
+
         } catch (Exception exception) {
-            MessageUtils.editMessage(event.getMessage(),null, "Couldn't parse the amount of messages to delete.", Color.RED.getRGB());
+            MessageUtils.editMessage(event.getMessage(), null, "Couldn't parse the amount of messages to delete.", Color.RED.getRGB());
         }
     }
 }

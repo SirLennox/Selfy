@@ -1,6 +1,7 @@
 package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
+import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.module.Module;
 import me.sirlennox.selfy.util.MessageUtils;
@@ -22,7 +23,7 @@ public class ToggleCommand extends Command {
             sendUsage("<Module>", event.getMessage());
             return;
         }
-        Module m = ModuleUtils.getModuleByName(args[0]);
+        Module m = Main.selfy.moduleUtils.getModuleByName(args[0]);
         if(m == null) {
             MessageUtils.editMessage("Error", "Module not found", Color.RED.getRGB(), event.getMessage());
             return;

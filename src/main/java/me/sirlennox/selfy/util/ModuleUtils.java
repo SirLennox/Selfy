@@ -1,19 +1,18 @@
 package me.sirlennox.selfy.util;
 
 import me.sirlennox.selfy.Main;
+import me.sirlennox.selfy.Selfy;
 import me.sirlennox.selfy.module.Module;
 
 public class ModuleUtils {
 
+    public Selfy selfy;
+    public ModuleUtils(Selfy selfy) {
+        this.selfy = selfy;
+    }
 
-    public static Module getModuleByName(String name) {
-        for(Module m : Main.selfy.moduleManager.modules) {
-            if(m.name.equalsIgnoreCase(name)) {
-                return m;
-            }
-        }
-
-        return null;
+    public Module getModuleByName(String name) {
+        return selfy.moduleManager.modules.stream().filter(m -> m.name.equals(name)).findFirst().orElse(null);
     }
 
 

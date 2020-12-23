@@ -1,6 +1,7 @@
 package me.sirlennox.selfy.module;
 
 import me.sirlennox.selfy.module.modules.Bot4Everyone;
+import me.sirlennox.selfy.util.ModuleUtils;
 
 import java.util.ArrayList;
 
