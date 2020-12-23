@@ -2,22 +2,20 @@ package me.sirlennox.selfy;
 
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.command.CommandManager;
+import me.sirlennox.selfy.config.ConfigManager;
 import me.sirlennox.selfy.module.ModuleManager;
-import me.sirlennox.selfy.script.Script;
 import me.sirlennox.selfy.script.ScriptManager;
 import me.sirlennox.selfy.util.*;
 import org.javacord.api.AccountType;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.event.message.MessageCreateEvent;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Selfy {
     public final String VERSION;
@@ -30,6 +28,7 @@ public class Selfy {
     public final ModuleManager moduleManager;
     public final me.sirlennox.selfy.AccountType accountType;
     public final long startedMS;
+    public ConfigManager configManager;
 
     //Utils
     public CommandUtils commandUtils;
@@ -39,6 +38,7 @@ public class Selfy {
 
     public File dir;
     public File modulesConfigFile;
+    public File configFile;
 
     //Scripts
 
@@ -46,16 +46,20 @@ public class Selfy {
 
 
     public Selfy(String name, String version, String prefix, String token, ArrayList<String> developers, me.sirlennox.selfy.AccountType accountType) {
-        this.dir = this.createDir(new File(System.getProperty("user.home"), name));
+
         this.NAME = name;
         this.VERSION = version;
         this.PREFIX = prefix;
         this.TOKEN = token;
         this.DEVELOPERS = developers;
+        this.dir = this.createDir(new File(System.getProperty("user.home"), name));
+        this.configFile = new File(this.dir, "config.json");
+        this.configManager = new ConfigManager(this.configFile, this);
         this.commandManager = new CommandManager();
         this.commandUtils = new CommandUtils(this);
         this.moduleManager = new ModuleManager();
         this.moduleUtils = new ModuleUtils(this);
+
         this.modulesConfigUtils = new ModulesConfigUtils(this);
         try {
             this.modulesConfigFile = new File(this.dir, "moduleConfigs.json");
@@ -83,10 +87,12 @@ public class Selfy {
     }
 
     public void shutdown() {
-        JSONObject writeJSON = this.modulesConfigUtils.modulesToJSONObject();
         try {
             FileWriter fw = new FileWriter(this.modulesConfigFile);
-            fw.write(writeJSON.toJSONString());
+            fw.write(this.modulesConfigUtils.modulesToJSONObject().toJSONString());
+            fw.close();
+            fw = new FileWriter(this.configFile);
+            fw.write(this.configManager.configsToJSONObject().toJSONString());
             fw.close();
         } catch (IOException e) {
             e.printStackTrace();

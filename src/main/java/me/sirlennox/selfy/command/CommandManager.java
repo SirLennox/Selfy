@@ -1,6 +1,7 @@
 package me.sirlennox.selfy.command;
 
 import me.sirlennox.selfy.command.commands.*;
+import me.sirlennox.selfy.command.commands.ConfigCommand;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,9 @@ public class CommandManager {
         registerCommand(new AnimalCommand());
         registerCommand(new ClearCommand());
         registerCommand(new URLScreenshotCommand());
+        registerCommand(new SetCommand());
+        registerCommand(new SettingsCommand());
+        registerCommand(new ConfigCommand());
     }
 
 
