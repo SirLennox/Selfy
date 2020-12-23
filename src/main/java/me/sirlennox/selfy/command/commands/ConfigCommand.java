@@ -17,9 +17,12 @@ import me.sirlennox.selfy.config.ConfigAction;
 import me.sirlennox.selfy.module.Setting;
 import me.sirlennox.selfy.util.MathUtils;
 import me.sirlennox.selfy.util.MessageUtils;
+import me.sirlennox.selfy.util.ParseUtils;
 import org.javacord.api.event.message.MessageCreateEvent;
 import me.sirlennox.selfy.Main;
+import sun.net.www.ParseUtil;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -46,7 +49,7 @@ public class ConfigCommand extends Command {
 
                 ArrayList<Setting> configObjects = Main.selfy.configManager.configs;
                 StringBuilder stringBuilder = new StringBuilder();
-
+                if(configObjects.isEmpty()) stringBuilder.append("Nothing to see here.");
                 for(Setting configObject : configObjects) {
                     stringBuilder
                             .append("**")
@@ -74,7 +77,6 @@ public class ConfigCommand extends Command {
                 String joinedCutArgs = String.join(" ", cutArgs);
 
                 String[] objects = joinedCutArgs.split(" ");
-                ArrayList<Setting> objectList = new ArrayList<>();
 
                 for(String object : objects) {
                     try {
@@ -82,18 +84,20 @@ public class ConfigCommand extends Command {
 
                         String key = splitObject[0];
                         String value = splitObject[1];
-
-                        objectList.add(new Setting(key, value));
+                        Setting obj = Main.selfy.configManager.getConfigByName(key);
+                        try {
+                            obj.value = ParseUtils.parseObjectFromString(value, obj.value);
+                            MessageUtils.editMessage(event.getMessage(), foundAction.name(), "Successfully changed config object.", Color.GREEN.getRGB());
+                        } catch (Throwable throwable) {
+                            MessageUtils.editMessage(event.getMessage(), "Error", "Cannot parse.", Color.RED.getRGB());
+                        }
                     } catch (Exception exception) {
                         sendUsage("<ConfigAction> <Key:Value>", event.getMessage());
                         return;
                     }
                 }
 
-                for(Setting s : objectList) {
-                    Main.selfy.configManager.registerConfig(s);
-                }
-                MessageUtils.editMessage(event.getMessage(), foundAction.name(), "Added " + objectList.size() + " changes to the config.", MathUtils.randomColor().getRGB());
+
 
             }
         } catch (IllegalArgumentException exception) {
