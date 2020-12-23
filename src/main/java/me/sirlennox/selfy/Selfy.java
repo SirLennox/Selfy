@@ -3,6 +3,8 @@ package me.sirlennox.selfy;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.command.CommandManager;
 import me.sirlennox.selfy.module.ModuleManager;
+import me.sirlennox.selfy.script.Script;
+import me.sirlennox.selfy.script.ScriptManager;
 import me.sirlennox.selfy.util.*;
 import org.javacord.api.AccountType;
 import org.javacord.api.DiscordApi;
@@ -21,7 +23,7 @@ public class Selfy {
     public final String VERSION;
     public final String NAME;
     public final String PREFIX;
-    public final String TOKEN;
+    private final String TOKEN;
     public final ArrayList<String> DEVELOPERS;
     public final DiscordApi API;
     public final CommandManager commandManager;
@@ -33,9 +35,13 @@ public class Selfy {
     public CommandUtils commandUtils;
     public ModuleUtils moduleUtils;
     public ModulesConfigUtils modulesConfigUtils;
+    public ScriptManager scriptManager;
 
     public File dir;
     public File modulesConfigFile;
+
+    //Scripts
+
 
 
 
@@ -54,18 +60,11 @@ public class Selfy {
         try {
             this.modulesConfigFile = new File(this.dir, "moduleConfigs.json");
             createModuleConfigFileAndSetModuleConfigs(this.modulesConfigFile);
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                JSONObject writeJSON = this.modulesConfigUtils.modulesToJSONObject();
-                try {
-                    FileWriter fw = new FileWriter(this.modulesConfigFile);
-                    fw.write(writeJSON.toJSONString());
-                    fw.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }));
+            createShutdownHook();
         } catch (IOException e) {
         }
+
+        this.scriptManager = new ScriptManager(new File(this.dir, "scripts"), this);
 
         this.API = addEventListeners(buildBot(token));
         this.accountType = accountType;
@@ -75,6 +74,23 @@ public class Selfy {
     public File createDir(File dir) {
         if(!dir.exists()) dir.mkdir();
         return dir;
+    }
+
+    public void createShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+           shutdown();
+        }));
+    }
+
+    public void shutdown() {
+        JSONObject writeJSON = this.modulesConfigUtils.modulesToJSONObject();
+        try {
+            FileWriter fw = new FileWriter(this.modulesConfigFile);
+            fw.write(writeJSON.toJSONString());
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public JSONObject createModuleConfigFileAndSetModuleConfigs(File f) throws IOException {
@@ -108,6 +124,7 @@ public class Selfy {
 
     public DiscordApi addEventListeners(DiscordApi api) {
         api.addMessageCreateListener(event -> {
+            this.scriptManager.notifyAllScripts("onMessage", event);
             this.moduleManager.modules.forEach(m -> {
                 if(m.toggled) m.onChatMessage(event);
             });
@@ -127,7 +144,9 @@ public class Selfy {
 
     public void onMessage(MessageCreateEvent event) {
         String msg = event.getMessageContent();
-        if(msg.startsWith(PREFIX)) {
+        boolean isCommand = msg.startsWith(PREFIX);
+        this.scriptManager.notifyAllScripts("onSendMessage", event, isCommand);
+        if(isCommand) {
             String msgWithoutPrefix = msg.substring(PREFIX.length());
             this.onCommand(msgWithoutPrefix, event);
         }

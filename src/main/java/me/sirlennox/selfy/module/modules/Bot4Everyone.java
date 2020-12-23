@@ -14,7 +14,8 @@ public class Bot4Everyone extends Module {
 
     @Override
     public void initSettings() {
-        registerSetting(new Setting("test", "t"));
+        registerSetting(new Setting("test", 1));
+
         super.initSettings();
     }
 

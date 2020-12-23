@@ -25,7 +25,7 @@ public class CommandUtils {
     }
 
     public Command getCommandByName(String name) {
-        return selfy.commandManager.commands.stream().filter(m -> m.cmd.equals(name)).findFirst().orElse(null);
+        return selfy.commandManager.commands.stream().filter(m -> m.cmd.equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
 

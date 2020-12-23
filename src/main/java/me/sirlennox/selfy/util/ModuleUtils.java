@@ -12,7 +12,7 @@ public class ModuleUtils {
     }
 
     public Module getModuleByName(String name) {
-        return selfy.moduleManager.modules.stream().filter(m -> m.name.equals(name)).findFirst().orElse(null);
+        return selfy.moduleManager.modules.stream().filter(m -> m.name.equalsIgnoreCase(name) ).findFirst().orElse(null);
     }
 
 

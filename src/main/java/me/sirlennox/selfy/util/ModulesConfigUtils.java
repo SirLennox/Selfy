@@ -17,6 +17,8 @@ import me.sirlennox.selfy.module.Setting;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import javax.script.ScriptEngineManager;
+
 public class ModulesConfigUtils {
 
     public Selfy selfy;
