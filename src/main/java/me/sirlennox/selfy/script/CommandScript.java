@@ -46,7 +46,9 @@ public class CommandScript extends Script {
                     }
                 }
             };
-            command.aliases = (ArrayList<String>) convertIntoJavaObject(getVar("aliases"));
+            try {
+                command.aliases = (ArrayList<String>) convertIntoJavaObject(getVar("aliases"));
+            } catch (Throwable t) {}
             selfy.commandManager.registerCommand(command);
         }catch (Exception e) {
             e.printStackTrace();

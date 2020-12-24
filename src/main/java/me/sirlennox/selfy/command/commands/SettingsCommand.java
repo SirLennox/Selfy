@@ -43,7 +43,7 @@ public class SettingsCommand extends Command {
             sb.append("Nothing to see here.");
         }else {
             for(Setting setting : module.settings) {
-                sb.append(setting.name).append(" » `").append(setting.value).append("`");
+                sb.append(setting.name).append(" » `").append(setting.value).append("`\n");
             }
         }
         MessageUtils.editMessage("Settings", sb.toString(), Color.BLUE.getRGB(), event.getMessage());

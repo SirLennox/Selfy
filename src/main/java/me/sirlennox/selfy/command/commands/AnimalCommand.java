@@ -9,13 +9,7 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 
 public class AnimalCommand extends Command {
     public AnimalCommand() {
@@ -33,7 +27,7 @@ public class AnimalCommand extends Command {
 
         try {
             JSONObject animalInfo = (JSONObject) JSONValue.parse(HttpUtils.get("https://some-random-api.ml/img/" + animal));
-            MessageUtils.editMessage(event.getMessage(), "Here's a `" + animal + "`.", animalInfo.get("link").toString(), null, MathUtils.randomColor().getRGB());
+            MessageUtils.editMessage(event.getMessage(), "Here's a `" + animal + "`.", animalInfo.get("link").toString(), null, MathUtils.getRandomColor().getRGB());
         } catch (Exception exception) {
             MessageUtils.editMessage(event.getMessage(), "Meme", "Something went wrong while trying to get a `" + animal + "` for you.", Color.RED.getRGB());
         }

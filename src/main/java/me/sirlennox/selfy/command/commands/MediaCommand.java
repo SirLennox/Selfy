@@ -17,6 +17,6 @@ public class MediaCommand extends Command {
             sendUsage("<Link>", event);
             return;
         }
-        MessageUtils.editMessage(null, args[0], null, MathUtils.randomColor().getRGB(), event.getMessage());
+        MessageUtils.editMessage(null, args[0], null, MathUtils.getRandomColor().getRGB(), event.getMessage());
     }
 }

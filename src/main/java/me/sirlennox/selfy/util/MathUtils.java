@@ -22,7 +22,7 @@ public class MathUtils {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
-    public static Color randomColor() {
+    public static Color getRandomColor() {
         Random rndm = new Random();
         return Color.getHSBColor(rndm.nextFloat(), rndm.nextFloat(), rndm.nextFloat());
     }

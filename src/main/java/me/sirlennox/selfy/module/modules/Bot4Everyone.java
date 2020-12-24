@@ -22,7 +22,7 @@ public class Bot4Everyone extends Module {
     @Override
     public void onChatMessage(MessageCreateEvent event) {
         if(event.getMessage().getAuthor().getId() != event.getApi().getYourself().getId()) {
-            Main.selfy.onMessage(event);
+            Main.selfy.onMessageSent(event);
         }
         super.onChatMessage(event);
     }

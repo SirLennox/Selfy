@@ -1,3 +1,14 @@
+/*
+ * Copyright (c) 2020 SirLennox & f1nniboy.
+ *
+ * This code is copyrighted to SirLennox and f1nniboy.
+ *
+ * Using this code without privileges is not allowed.
+ *
+ *
+ *
+ */
+
 package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
@@ -21,6 +32,6 @@ public class AvatarCommand extends Command {
                 .orElse(
                         event.getApi().getYourself()
                 );
-        MessageUtils.editMessage("Avatar of " + user.getDiscriminatedName(), user.getAvatar().getUrl().toString(), /*"Here is " + user.getDiscriminatedName() + " avatar:"*/null, MathUtils.randomColor().getRGB(), event.getMessage());
+        MessageUtils.editMessage("Avatar of " + user.getDiscriminatedName(), user.getAvatar().getUrl().toString(), /*"Here is " + user.getDiscriminatedName() + " avatar:"*/null, MathUtils.getRandomColor().getRGB(), event.getMessage());
     }
 }

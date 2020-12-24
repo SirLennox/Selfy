@@ -14,11 +14,9 @@
 package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
-import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.util.MathUtils;
 import me.sirlennox.selfy.util.MessageUtils;
-import me.sirlennox.selfy.util.ModuleUtils;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.event.message.MessageCreateEvent;
 
@@ -52,7 +50,7 @@ public class ActivityCommand extends Command {
             ActivityType foundActivity = ActivityType.valueOf(activity.toUpperCase());
             event.getApi().updateActivity(foundActivity, text);
 
-            MessageUtils.editMessage("Activity", "The activity was set to `" + foundActivity.name() + "` with the text `" + text + "`.", MathUtils.randomColor().getRGB(), event.getMessage());
+            MessageUtils.editMessage("Activity", "The activity was set to `" + foundActivity.name() + "` with the text `" + text + "`.", MathUtils.getRandomColor().getRGB(), event.getMessage());
         } catch (IllegalArgumentException exception) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("Possible activities: \n");
@@ -63,7 +61,7 @@ public class ActivityCommand extends Command {
                         .append("`\n");
             }
 
-            MessageUtils.editMessage( "Activities", stringBuilder.toString(), MathUtils.randomColor().getRGB(),event.getMessage());
+            MessageUtils.editMessage( "Activities", stringBuilder.toString(), MathUtils.getRandomColor().getRGB(),event.getMessage());
         }
     }
 }

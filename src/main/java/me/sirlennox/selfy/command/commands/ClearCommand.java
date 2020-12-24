@@ -57,7 +57,7 @@ public class ClearCommand extends Command {
                     } catch (Exception ignored) { }
                 });
                 try {
-                    MessageUtils.sendMessage("Clear", "Cleared " + (messages.size()) + " messages.", MathUtils.randomColor().getRGB(), event.getChannel());
+                    MessageUtils.sendMessage("Clear", "Cleared " + (messages.size()) + " messages.", MathUtils.getRandomColor().getRGB(), event.getChannel());
                 }catch (Exception e) { }
                 }, "MessageDeleteThread").start();
 

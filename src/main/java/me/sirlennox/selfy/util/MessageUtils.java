@@ -13,6 +13,8 @@ import java.util.Scanner;
 
 public class MessageUtils {
 
+
+
     public static void sendMessage(String title, String image, String desc, int color, TextChannel channel) {
         if(!channel.canYouWrite()) return;
         if(desc == null) {

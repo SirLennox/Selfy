@@ -2,17 +2,22 @@ package me.sirlennox.selfy.command;
 
 import me.sirlennox.selfy.command.commands.*;
 import me.sirlennox.selfy.command.commands.ConfigCommand;
+import me.sirlennox.selfy.command.commands.AvatarCommand;
+import me.sirlennox.selfy.command.commands.base64.Base64Command;
+import me.sirlennox.selfy.documentation.Documentated;
 
 import java.util.ArrayList;
-
+@Documentated("Initialize Commands here")
 public class CommandManager {
+    @Documentated("The command arraylist where every command will be in")
     public ArrayList<Command> commands;
 
+    @Documentated("The constructor of CommandManager, where the commands arraylist will be initialized and the init method executed.")
     public CommandManager() {
         this.commands = new ArrayList<>();
         this.init();
     }
-
+    @Documentated("The initialize method of the Commands (here you can register commands)")
     public void init() {
         registerCommand(new EmbedCommand());
         registerCommand(new HelpCommand());
@@ -39,9 +44,12 @@ public class CommandManager {
         registerCommand(new SetCommand());
         registerCommand(new SettingsCommand());
         registerCommand(new ConfigCommand());
+        registerCommand(new ProxiesCommand());
+        registerCommand(new DocumentationCommand());
+        registerCommand(new TestCommand());
     }
 
-
+    @Documentated("With that you can register commands")
     public void registerCommand(Command c) {
         this.commands.add(c);
     }

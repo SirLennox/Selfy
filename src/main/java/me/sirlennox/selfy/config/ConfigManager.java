@@ -41,7 +41,6 @@ public class ConfigManager {
     }
 
     public void init() {
-        registerConfig("f1nniboy", "knecht");
     }
 
     public void registerConfig(Setting setting) {

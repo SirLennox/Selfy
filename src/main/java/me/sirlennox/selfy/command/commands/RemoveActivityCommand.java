@@ -33,7 +33,7 @@ public class RemoveActivityCommand extends Command {
 
         if(event.getApi().getActivity().isPresent()) {
             event.getApi().unsetActivity();
-            MessageUtils.editMessage(event.getMessage(), "Remove Activity", "Removed the activity.", MathUtils.randomColor().getRGB());
+            MessageUtils.editMessage(event.getMessage(), "Remove Activity", "Removed the activity.", MathUtils.getRandomColor().getRGB());
         } else {
             MessageUtils.editMessage(event.getMessage(), "Remove Activity", "No activity is set.", Color.RED.getRGB());
         }

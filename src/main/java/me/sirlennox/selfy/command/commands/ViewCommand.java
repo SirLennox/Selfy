@@ -42,12 +42,12 @@ public class ViewCommand extends Command {
                             .append("\n");
                 }
 
-                MessageUtils.editMessage(event.getMessage(), "Content of " + link, stringBuilder.toString(), MathUtils.randomColor().getRGB());
+                MessageUtils.editMessage(event.getMessage(), "Content of " + link, stringBuilder.toString(), MathUtils.getRandomColor().getRGB());
             } catch (Exception exception) {
-                MessageUtils.editMessage(event.getMessage(), "Content of " + link, response, MathUtils.randomColor().getRGB());
+                MessageUtils.editMessage(event.getMessage(), "Content of " + link, response, MathUtils.getRandomColor().getRGB());
             }
         } catch (IOException e) {
-            MessageUtils.editMessage(event.getMessage(), "Error", "An error occurred while trying to view the website? Do you use http/s?", MathUtils.randomColor().getRGB());
+            MessageUtils.editMessage(event.getMessage(), "Error", "An error occurred while trying to view the website? Do you use http/s?", MathUtils.getRandomColor().getRGB());
         }
 
 

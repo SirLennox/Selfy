@@ -20,7 +20,6 @@ import me.sirlennox.selfy.util.MessageUtils;
 import me.sirlennox.selfy.util.ParseUtils;
 import org.javacord.api.event.message.MessageCreateEvent;
 import me.sirlennox.selfy.Main;
-import sun.net.www.ParseUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class ConfigCommand extends Command {
                             .append("\n");
                 }
 
-                MessageUtils.editMessage(event.getMessage(), foundAction.name(), stringBuilder.toString(), MathUtils.randomColor().getRGB());
+                MessageUtils.editMessage(event.getMessage(), foundAction.name(), stringBuilder.toString(), MathUtils.getRandomColor().getRGB());
 
             } else if(foundAction == ConfigAction.WRITE) {
 
@@ -85,6 +84,10 @@ public class ConfigCommand extends Command {
                         String key = splitObject[0];
                         String value = splitObject[1];
                         Setting obj = Main.selfy.configManager.getConfigByName(key);
+                        if(obj == null) {
+                            MessageUtils.editMessage(event.getMessage(), "Error", "Configuration not found!", Color.RED.getRGB());
+                            return;
+                        }
                         try {
                             obj.value = ParseUtils.parseObjectFromString(value, obj.value);
                             MessageUtils.editMessage(event.getMessage(), foundAction.name(), "Successfully changed config object.", Color.GREEN.getRGB());
@@ -110,7 +113,7 @@ public class ConfigCommand extends Command {
                         .append("`\n");
             }
 
-            MessageUtils.editMessage(event.getMessage(), "Actions", stringBuilder.toString(), MathUtils.randomColor().getRGB());
+            MessageUtils.editMessage(event.getMessage(), "Actions", stringBuilder.toString(), MathUtils.getRandomColor().getRGB());
         }
     }
 }
