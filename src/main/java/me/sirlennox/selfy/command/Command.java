@@ -28,7 +28,6 @@ public abstract class Command {
 
     @Documentated("This is the constructor of a command where you can specify the command, the description and the category")
     public Command(String cmd, String desc, Category category) {
-        
         this.cmd = cmd;
         this.desc = desc;
         this.category = category;

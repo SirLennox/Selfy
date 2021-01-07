@@ -18,6 +18,7 @@ import javax.script.ScriptException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ScriptManager {
 
@@ -44,44 +45,46 @@ public class ScriptManager {
     }
 
     public void readAll() {
-        for(File f : this.scriptsDir.listFiles()) {
-            if(!f.isDirectory()) {
-                if (f.getName().endsWith(".js")) {
-                    try {
-                        this.scripts.add(readScript(f));
-                    } catch (FileNotFoundException | ScriptException e) {
-                        e.printStackTrace();
-                        System.err.println("Error while reading script -> " + f.getName());
+        try {
+            for (File f : Objects.requireNonNull(this.scriptsDir.listFiles())) {
+                if (!f.isDirectory()) {
+                    if (f.getName().endsWith(".js")) {
+                        try {
+                            this.scripts.add(readScript(f));
+                        } catch (FileNotFoundException | ScriptException e) {
+                            e.printStackTrace();
+                            System.err.println("Error while reading script -> " + f.getName());
+                        }
                     }
                 }
             }
-        }
 
-        for(File f : this.commandScriptsDir.listFiles()) {
-            if(!f.isDirectory()) {
-                if (f.getName().endsWith(".js")) {
-                    try {
-                        this.scripts.add(readCommandScript(f));
-                    } catch (FileNotFoundException | ScriptException e) {
-                        e.printStackTrace();
-                        System.err.println("Error while reading command script -> " + f.getName());
+            for (File f : Objects.requireNonNull(this.commandScriptsDir.listFiles())) {
+                if (!f.isDirectory()) {
+                    if (f.getName().endsWith(".js")) {
+                        try {
+                            this.scripts.add(readCommandScript(f));
+                        } catch (FileNotFoundException | ScriptException e) {
+                            e.printStackTrace();
+                            System.err.println("Error while reading command script -> " + f.getName());
+                        }
                     }
                 }
             }
-        }
 
-        for(File f : this.modulesScriptsDir.listFiles()) {
-            if(!f.isDirectory()) {
-                if (f.getName().endsWith(".js")) {
-                    try {
-                        this.scripts.add(readModuleScript(f));
-                    } catch (FileNotFoundException | ScriptException e) {
-                        e.printStackTrace();
-                        System.err.println("Error while reading module script -> " + f.getName());
+            for (File f : Objects.requireNonNull(this.modulesScriptsDir.listFiles())) {
+                if (!f.isDirectory()) {
+                    if (f.getName().endsWith(".js")) {
+                        try {
+                            this.scripts.add(readModuleScript(f));
+                        } catch (FileNotFoundException | ScriptException e) {
+                            e.printStackTrace();
+                            System.err.println("Error while reading module script -> " + f.getName());
+                        }
                     }
                 }
             }
-        }
+        }catch (Exception e) {}
     }
 
 

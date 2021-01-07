@@ -35,8 +35,7 @@ public class ConfigManager {
         this.init();
         try {
             this.read((JSONObject) JSONValue.parse(new FileReader(file)));
-        } catch (FileNotFoundException e) {
-
+        } catch (Exception e) {
         }
     }
 

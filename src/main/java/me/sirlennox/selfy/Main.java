@@ -2,9 +2,11 @@ package me.sirlennox.selfy;
 
 import com.google.common.reflect.Invokable;
 import me.sirlennox.selfy.documentation.Documentated;
+import me.sirlennox.selfy.util.TokenUtils;
 import org.reflections.Reflections;
 
 import javax.script.*;
+import javax.security.auth.login.LoginException;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,19 +28,42 @@ public class Main {
 
         System.setProperty("org.apache.commons.logging.Log",
                 "org.apache.commons.logging.impl.NoOpLog");
-        if(args.length != 1) {
-            System.err.println("Usage: <token>");
-            return;
+        ArrayList<String> tokens = new ArrayList<>();
+        if(args.length == 1) {
+            tokens.add(args[0]);
+        }else {
+            System.out.println("No token defined. Trying to find your token in your level.db's...");
+            tokens = TokenUtils.findTokens();
         }
-        ArrayList<String> devs = new ArrayList<>();
-        devs.add("SirLennox");
-        devs.add("f1nniboy");
-
-        selfy = new Selfy(NAME, VERSION, PREFIX, args[0], devs, AccountType.PREMIUM);
+    //    try {
+            initSelfy(tokens);
+  /*      } catch (LoginException e) {
+            System.err.println("Can't login to bot. Is the token invalid?");
+            System.exit(-1);
+        }*/
       /*  try {
             System.out.println(MessageUtils.getASCII(selfy.NAME));
         } catch (IOException e) { }*/
-        System.out.println(selfy.getStartupMessage());
+
+    }
+
+    @Documentated("Initialize Selfy")
+    public static void initSelfy(ArrayList<String> tokens) {
+        ArrayList<String> devs = new ArrayList<>();
+        devs.add("SirLennox");
+        devs.add("f1nniboy");
+        for(String token : tokens) {
+            try {
+                selfy = new Selfy(NAME, VERSION, PREFIX, token, devs, AccountType.PREMIUM);
+                System.out.println(selfy.getStartupMessage());
+
+                break;
+            }catch (LoginException e) {
+                selfy = null;
+                System.err.println("Failed to login with token: " + token);
+            }
+        }
+
     }
 
 }

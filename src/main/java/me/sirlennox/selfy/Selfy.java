@@ -14,9 +14,12 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
+import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.concurrent.CompletionException;
+
 @Documentated("Selfy initialize class")
 public class Selfy {
     public final String VERSION;
@@ -46,7 +49,7 @@ public class Selfy {
 
 
     @Documentated("This will initialize Selfy")
-    public Selfy(String name, String version, String prefix, String token, ArrayList<String> developers, me.sirlennox.selfy.AccountType accountType) {
+    public Selfy(String name, String version, String prefix, String token, ArrayList<String> developers, me.sirlennox.selfy.AccountType accountType) throws LoginException {
 
         this.NAME = name;
         this.VERSION = version;
@@ -60,18 +63,23 @@ public class Selfy {
         this.commandUtils = new CommandUtils(this);
         this.moduleManager = new ModuleManager();
         this.moduleUtils = new ModuleUtils(this);
-
         this.modulesConfigUtils = new ModulesConfigUtils(this);
         try {
             this.modulesConfigFile = new File(this.dir, "moduleConfigs.json");
             createModuleConfigFileAndSetModuleConfigs(this.modulesConfigFile);
             createShutdownHook();
-        } catch (IOException e) {
+        } catch (Exception e) {
         }
 
         this.scriptManager = new ScriptManager(new File(this.dir, "scripts"), this);
-
-        this.API = addEventListeners(buildBot(token));
+        try {
+            this.API = addEventListeners(buildBot(token));
+        }catch (CompletionException e) {
+            throw new LoginException("Can't login to bot!");
+        }
+     /*   if(this.API == null || this.API.getYourself() == null) {
+            throw new LoginException("Can't login to bot!");
+        }*/
         this.accountType = accountType;
         this.startedMS = System.currentTimeMillis();
     }
@@ -94,13 +102,13 @@ public class Selfy {
             fw = new FileWriter(this.configFile);
             fw.write(this.configManager.configsToJSONObject().toJSONString());
             fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         }
     }
 
     @Documentated("This will create the moduleConfigs.json and read it")
-    public JSONObject createModuleConfigFileAndSetModuleConfigs(File f) throws IOException {
+    public JSONObject createModuleConfigFileAndSetModuleConfigs(File f) throws Exception {
         if(f.exists()) {
             return setModuleConfigs(f);
         }else {
@@ -109,19 +117,19 @@ public class Selfy {
         return null;
     }
     @Documentated("This will read the moduleConfigs.json file")
-    public JSONObject setModuleConfigs(File f) throws FileNotFoundException {
+    public JSONObject setModuleConfigs(File f) throws Exception {
         JSONObject obj;
         this.modulesConfigUtils.setModuleConfigs(obj = (JSONObject) JSONValue.parse(new FileReader(f)));
         return obj;
     }
 
     @Documentated("The bot will be built here")
-    public DiscordApi buildBot(String token) {
+    public DiscordApi buildBot(String token) throws CompletionException {
         return new DiscordApiBuilder().setAccountType(AccountType.CLIENT).setToken(token).login().join();
     }
     @Documentated("Gets the startup message")
     public String getStartupMessage() {
-        return "Successfully started " + NAME + " " + getVersion() + " (by " + getDevelopers() + ")";
+        return "Successfully started " + NAME + " " + getVersion() + " (by " + getDevelopers() + ") [on " + this.API.getYourself().getDiscriminatedName() + "]";
     }
     @Documentated("Add the event listeners")
     public DiscordApi addEventListeners(DiscordApi api) {

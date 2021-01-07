@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 
 import java.awt.*;
 
+
 public class ResolveIPCommand extends Command {
     public ResolveIPCommand() {
         super("resolveip", "Resolve an IP address", Category.UTIL);
@@ -44,6 +45,6 @@ public class ResolveIPCommand extends Command {
     }
 
     public static String getStringFromJSONObj(JSONObject object, String key) {
-        return (object.containsKey(key) ? String.valueOf(object.get(key)) : "N/A");
+        return (object.containsKey(key) ? String.valueOf(object.get(key)).isEmpty() ? "-" : String.valueOf(object.get(key)) : "N/A");
     }
 }
