@@ -2,9 +2,9 @@ package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
-import me.sirlennox.selfy.util.ArrayUtils;
-import me.sirlennox.selfy.util.MessageUtils;
-import me.sirlennox.selfy.util.Utils;
+import me.sirlennox.selfy.utils.stat.ArrayUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
+import me.sirlennox.selfy.utils.stat.Utils;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;

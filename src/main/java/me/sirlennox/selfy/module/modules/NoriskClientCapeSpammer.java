@@ -13,18 +13,8 @@ package me.sirlennox.selfy.module.modules;
 
 import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.module.Module;
-import me.sirlennox.selfy.util.Utils;
+import me.sirlennox.selfy.utils.stat.Utils;
 import org.javacord.api.event.message.MessageCreateEvent;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.File;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.util.Scanner;
 
 public class NoriskClientCapeSpammer extends Module {
     public NoriskClientCapeSpammer() {
@@ -65,16 +55,16 @@ public class NoriskClientCapeSpammer extends Module {
 PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
             // Send normal param.
             writer.append("-----------------------------" + boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"uuid\"").append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"uuid\".append(CRLF);
        //     writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
             writer.append(CRLF).append(uuid).append(CRLF).flush();
 
 
             // Send binary file.
             writer.append("-----------------------------" + boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + binaryFile.getName() + "\"").append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"" + binaryFile.getName() + "\".append(CRLF);
             writer.append("Content-Type: " + URLConnection.guessContentTypeFromName(binaryFile.getName())).append(CRLF);
-            //writer.append("Content-Transfer-Encoding: binary").append(CRLF);
+            //writer.append("Content-Transfer-Encoding: binary.append(CRLF);
             writer.append(CRLF).flush();
             Files.copy(binaryFile.toPath(), output);
             output.flush(); // Important before continuing with writer!
@@ -82,9 +72,9 @@ PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), tr
 
             // End of multipart/form-data.
             writer.append("-----------------------------" + boundary).append(CRLF);
-            writer.append("Content-Disposition: form-data; name=\"token\"").append(CRLF);
+            writer.append("Content-Disposition: form-data; name=\"token\".append(CRLF);
             //     writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
             writer.append(CRLF).append(token).append(CRLF).flush();
 
-            writer.append("-----------------------------" + boundary + "--").append(CRLF).flush();
+            writer.append("-----------------------------" + boundary + "--.append(CRLF).flush();
  */

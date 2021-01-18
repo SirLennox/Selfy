@@ -15,9 +15,9 @@ import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.config.ConfigAction;
 import me.sirlennox.selfy.module.Setting;
-import me.sirlennox.selfy.util.MathUtils;
-import me.sirlennox.selfy.util.MessageUtils;
-import me.sirlennox.selfy.util.ParseUtils;
+import me.sirlennox.selfy.utils.stat.MathUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
+import me.sirlennox.selfy.utils.stat.ParseUtils;
 import org.javacord.api.event.message.MessageCreateEvent;
 import me.sirlennox.selfy.Main;
 

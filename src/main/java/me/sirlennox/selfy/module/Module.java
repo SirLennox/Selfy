@@ -1,7 +1,8 @@
 package me.sirlennox.selfy.module;
 
 import me.sirlennox.selfy.Category;
-import me.sirlennox.selfy.util.MessageUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
+import org.javacord.api.event.Event;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;

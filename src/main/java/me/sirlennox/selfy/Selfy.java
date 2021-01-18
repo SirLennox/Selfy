@@ -3,10 +3,13 @@ package me.sirlennox.selfy;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.command.CommandManager;
 import me.sirlennox.selfy.config.ConfigManager;
-import me.sirlennox.selfy.documentation.Documentated;
 import me.sirlennox.selfy.module.ModuleManager;
 import me.sirlennox.selfy.script.ScriptManager;
-import me.sirlennox.selfy.util.*;
+import me.sirlennox.selfy.utils.nonstatic.ModulesConfigUtils;
+import me.sirlennox.selfy.utils.stat.CommandUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
+import me.sirlennox.selfy.utils.stat.ModuleUtils;
+import me.sirlennox.selfy.utils.stat.Utils;
 import org.javacord.api.AccountType;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -20,7 +23,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.concurrent.CompletionException;
 
-@Documentated("Selfy initialize class")
+// Selfy initialize class
 public class Selfy {
     public final String VERSION;
     public final String NAME;
@@ -48,7 +51,7 @@ public class Selfy {
 
 
 
-    @Documentated("This will initialize Selfy")
+    // This will initialize Selfy
     public Selfy(String name, String version, String prefix, String token, ArrayList<String> developers, me.sirlennox.selfy.AccountType accountType) throws LoginException {
 
         this.NAME = name;
@@ -78,22 +81,22 @@ public class Selfy {
             throw new LoginException("Can't login to bot!");
         }
      /*   if(this.API == null || this.API.getYourself() == null) {
-            throw new LoginException("Can't login to bot!");
+            throw new LoginException("Can't login to bot!;
         }*/
         this.accountType = accountType;
         this.startedMS = System.currentTimeMillis();
     }
-    @Documentated("This will create the Selfy dir in your user.home directory")
+    // This will create the Selfy dir in your user.home directory
     public File createDir(File dir) {
         if(!dir.exists()) dir.mkdir();
         return dir;
     }
 
-    @Documentated("Will create a shutdown hook to save everything")
+    // Will create a shutdown hook to save everything
     public void createShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
-    @Documentated("Everything that will be executed if the program shutdown is here")
+    // Everything that will be executed if the program shutdown is here
     public void shutdown() {
         try {
             FileWriter fw = new FileWriter(this.modulesConfigFile);
@@ -107,7 +110,7 @@ public class Selfy {
         }
     }
 
-    @Documentated("This will create the moduleConfigs.json and read it")
+    // This will create the moduleConfigs.json and read it
     public JSONObject createModuleConfigFileAndSetModuleConfigs(File f) throws Exception {
         if(f.exists()) {
             return setModuleConfigs(f);
@@ -116,31 +119,32 @@ public class Selfy {
         }
         return null;
     }
-    @Documentated("This will read the moduleConfigs.json file")
+    // This will read the moduleConfigs.json file
     public JSONObject setModuleConfigs(File f) throws Exception {
         JSONObject obj;
         this.modulesConfigUtils.setModuleConfigs(obj = (JSONObject) JSONValue.parse(new FileReader(f)));
         return obj;
     }
 
-    @Documentated("The bot will be built here")
+    // The bot will be built here
     public DiscordApi buildBot(String token) throws CompletionException {
         return new DiscordApiBuilder().setAccountType(AccountType.CLIENT).setToken(token).login().join();
     }
-    @Documentated("Gets the startup message")
+    // Gets the startup message
     public String getStartupMessage() {
         return "Successfully started " + NAME + " " + getVersion() + " (by " + getDevelopers() + ") [on " + this.API.getYourself().getDiscriminatedName() + "]";
     }
-    @Documentated("Add the event listeners")
+    // Add the event listeners
     public DiscordApi addEventListeners(DiscordApi api) {
-        api.addMessageCreateListener(event -> {
-            this.scriptManager.notifyAllScripts("onMessage", event);
+        api.addMessageCreateListener( e -> {
+            this.scriptManager.notifyAllScripts("onChatMessage", e);
             this.moduleManager.modules.forEach(m -> {
-                if(m.toggled) m.onChatMessage(event);
+                if(m.toggled) m.onChatMessage(e);
             });
-            if(event.getMessage().getAuthor().getId() == api.getYourself().getId()) {
-                onMessageSent(event);
+            if (e.getMessage().getAuthor().getId() == api.getYourself().getId()) {
+                    onMessageSent(e);
             }
+
         });
         new Thread(() -> {
             while (true) {
@@ -151,7 +155,7 @@ public class Selfy {
         }, "ModuleUpdateThread").start();
         return api;
     }
-    @Documentated("This method will be called if a message got sent from you")
+    // This method will be called if a message got sent from you
     public void onMessageSent(MessageCreateEvent event) {
         String msg = event.getMessageContent();
         boolean isCommand = msg.startsWith(PREFIX);
@@ -161,7 +165,7 @@ public class Selfy {
             this.onCommand(msgWithoutPrefix, event);
         }
     }
-    @Documentated("This would be executed if something starts with the command prefix")
+    // This would be executed if something starts with the command prefix
     public void onCommand(String cmdStr, MessageCreateEvent event) {
         String[] args = new String[cmdStr.split(" ").length - 1];
         if (cmdStr.split(" ").length - 1 >= 0) System.arraycopy(cmdStr.split(" "), 1, args, 0, cmdStr.split(" ").length - 1);
@@ -179,12 +183,12 @@ public class Selfy {
     }
 
 
-    @Documentated("Gets the version with the v- prefix")
+    // Gets the version with the v- prefix
     public String getVersion() {
         return "v" + this.VERSION;
     }
 
-    @Documentated("Checks if the string is an alias of the command")
+    // Checks if the string is an alias of the command
     public static boolean isAliasOfCommand(Command c, String alias) {
         for(String s : c.aliases) {
             if(s.equalsIgnoreCase(alias)) {
@@ -194,7 +198,7 @@ public class Selfy {
         return false;
     }
 
-    @Documentated("Gets the developers of the selfbot, joined with \",\"")
+    // Gets the developers of the selfbot, joined with \",\"
     public String getDevelopers() {
         return String.join(", ", DEVELOPERS);
     }

@@ -13,15 +13,13 @@ package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
-import me.sirlennox.selfy.documentation.Documentated;
-import me.sirlennox.selfy.util.HttpUtils;
-import me.sirlennox.selfy.util.MathUtils;
-import me.sirlennox.selfy.util.MessageUtils;
+import me.sirlennox.selfy.utils.stat.HttpUtils;
+import me.sirlennox.selfy.utils.stat.MathUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;
 import java.io.IOException;
-import java.lang.annotation.Documented;
 
 public class ProxiesCommand extends Command {
     public ProxiesCommand() {

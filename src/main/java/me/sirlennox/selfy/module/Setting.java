@@ -13,15 +13,15 @@ package me.sirlennox.selfy.module;
 
 import me.sirlennox.selfy.documentation.Documentated;
 
-@Documentated("A class for settings")
+// A class for settings
 public class Setting {
 
-    @Documentated("Name of setting")
+    // Name of setting
     public String name;
-    @Documentated("Value of setting")
+    // Value of setting
     public Object value;
 
-    @Documentated("Constructor to create a setting (name, value)")
+    // Constructor to create a setting (name, value)
     public Setting(String name, Object value) {
         this.name = name;
         this.value = value;

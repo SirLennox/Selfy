@@ -14,17 +14,14 @@ package me.sirlennox.selfy.command.commands;
 import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
 import me.sirlennox.selfy.documentation.Documentated;
-import me.sirlennox.selfy.util.MathUtils;
-import me.sirlennox.selfy.util.MessageUtils;
+import me.sirlennox.selfy.utils.stat.MathUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public class DocumentationCommand extends Command {
     public DocumentationCommand() {

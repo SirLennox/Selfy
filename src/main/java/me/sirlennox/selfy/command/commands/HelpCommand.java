@@ -3,10 +3,8 @@ package me.sirlennox.selfy.command.commands;
 import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.Main;
 import me.sirlennox.selfy.command.Command;
-import me.sirlennox.selfy.util.ArrayUtils;
-import me.sirlennox.selfy.util.MessageUtils;
-import org.javacord.api.entity.channel.TextChannel;
-import org.javacord.api.entity.message.Message;
+import me.sirlennox.selfy.utils.stat.ArrayUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;

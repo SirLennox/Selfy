@@ -2,8 +2,8 @@ package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
-import me.sirlennox.selfy.util.MessageUtils;
-import me.sirlennox.selfy.util.Utils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
+import me.sirlennox.selfy.utils.stat.Utils;
 import org.javacord.api.event.message.MessageCreateEvent;
 import org.json.simple.JSONObject;
 
@@ -45,6 +45,6 @@ public class ResolveIPCommand extends Command {
     }
 
     public static String getStringFromJSONObj(JSONObject object, String key) {
-        return (object.containsKey(key) ? String.valueOf(object.get(key)).isEmpty() ? "-" : String.valueOf(object.get(key)) : "N/A");
+        return (object.containsKey(key) ? String.valueOf(object.get(key)).isEmpty() ? "N/A" : String.valueOf(object.get(key)) : "N/A");
     }
 }

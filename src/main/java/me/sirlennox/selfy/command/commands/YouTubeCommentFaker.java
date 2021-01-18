@@ -13,16 +13,12 @@ package me.sirlennox.selfy.command.commands;
 
 import me.sirlennox.selfy.Category;
 import me.sirlennox.selfy.command.Command;
-import me.sirlennox.selfy.util.ArrayUtils;
-import me.sirlennox.selfy.util.MessageUtils;
-import org.javacord.api.entity.message.MessageBuilder;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
+import me.sirlennox.selfy.utils.stat.ArrayUtils;
+import me.sirlennox.selfy.utils.stat.MessageUtils;
 import org.javacord.api.entity.user.User;
 import org.javacord.api.event.message.MessageCreateEvent;
 
 import java.awt.*;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class YouTubeCommentFaker extends Command {
     public YouTubeCommentFaker() {
