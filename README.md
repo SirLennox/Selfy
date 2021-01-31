@@ -1,0 +1,2 @@
+# Selfy
+A discord selfbot.
